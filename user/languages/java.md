@@ -195,6 +195,7 @@ details.
 
 The list of available JVMs for different dists are at
 
+  * [JDKs installed for **Focal**](/user/reference/focal/#jvm-clojure-groovy-java-scala-support)
   * [JDKs installed for **Bionic**](/user/reference/bionic/#jvm-clojure-groovy-java-scala-support)
   * [JDKs installed for **Xenial**](/user/reference/xenial/#jvm-clojure-groovy-java-scala-support)
   * [JDKs installed for **Trusty**](/user/reference/trusty/#jvm-clojure-groovy-java-scala-images)
@@ -203,7 +204,7 @@ The list of available JVMs for different dists are at
 ### Switching JDKs (Java 8 and below) Within One Job
 
 If your build needs to switch JDKs (Java 8 and below) during a job, you can do so with
-`jdk_switcher use …`.
+[`jdk_switcher`](https://github.com/michaelklishin/jdk_switcher#what-jdk-switcher-is).
 
 ```yaml
 script:
@@ -252,16 +253,18 @@ jdk:
 
 ### Switching JDKs (to Java 10 and up) Within One Job
 
-If your build needs to switch JDKs (Java 8 and up) during a job, you can do so with
-`install-jdk.sh`.
+If your build needs to switch JDKs (Java 10 and up) during a job, you can do so with
+[`install-jdk.sh`](https://sormuras.github.io/blog/2017-12-08-install-jdk-on-travis.html).
 
 ```yaml
 jdk: openjdk10
 script:
   - jdk_switcher use openjdk10
   - # do stuff with OpenJDK 10
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+  - chmod +x $TRAVIS_BUILD_DIR/install-jdk.sh
   - export JAVA_HOME=$HOME/openjdk11
-  - $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+  - $TRAVIS_BUILD_DIR/install-jdk.sh -F 11 --target $JAVA_HOME
   - # do stuff with open OpenJDK 11
 ```
 {: data-file=".travis.yml"}
@@ -274,3 +277,7 @@ script:
 - [Symfony 2 Eclipse plugin](https://github.com/pulse00/Symfony-2-Eclipse-Plugin/blob/master/.travis.yml)
 - [RESThub](https://github.com/resthub/resthub-spring-stack/blob/master/.travis.yml)
 - [Joni](https://github.com/jruby/joni/blob/master/.travis.yml), JRuby's regular expression implementation
+
+## Build Config Reference
+
+You can find more information on the build config format for [Java](https://config.travis-ci.com/ref/language/java) in our [Travis CI Build Config Reference](https://config.travis-ci.com/).
